@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import io from "socket.io-client";
+const socket = io("http://localhost:4000");
+export default class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      name: ""
+    };
+    socket.on("message", message => {
+      this.setState({ name: message });
+    });
+  }
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  componentDidMount() {
+    socket.emit("message", "gooooootteeeemm");
+  }
+
+  render() {
+    return <div className="App">Hey</div>;
+  }
 }
-
-export default App;
